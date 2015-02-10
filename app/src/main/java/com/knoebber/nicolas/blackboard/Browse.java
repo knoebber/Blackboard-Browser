@@ -31,7 +31,7 @@ public class Browse extends ActionBarActivity {
         alertDialog.show();
         */
         webView = (WebView) findViewById(R.id.webView);
-        startWebView("https://www.pioneerweb.grinnell.edu/webapps/portal/frameset.jsp");
+        startWebView("https://pioneerweb.grinnell.edu");
         //
     }
 /*
