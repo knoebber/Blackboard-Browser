@@ -32,6 +32,7 @@ public class Browse extends ActionBarActivity {
         */
         webView = (WebView) findViewById(R.id.webView);
         startWebView("https://pioneerweb.grinnell.edu");
+        webView.getSettings().setDomStorageEnabled(true); //so we can store locally
         //
     }
 /*
@@ -40,8 +41,11 @@ public class Browse extends ActionBarActivity {
     private void startWebView(String url) {
     //Create new webview Client to show progress dialog
         //When opening a url or click on link
+        webView.getSettings().setJavaScriptEnabled(true);
 
         webView.setWebViewClient(new WebViewClient() {
+                                     /*
+                                 }
             ProgressDialog progressDialog;
 
             //If you will not use this method URL links are open in new browser not in webview
@@ -59,7 +63,24 @@ public class Browse extends ActionBarActivity {
                     progressDialog.show();
                 }
             }
+            */
             public void onPageFinished(WebView view, String url) {
+                //inject some delicious java script to log us in
+                webView.loadUrl("javascript:" +
+                        "var iFrame = document.getElementById('contentFrame');"+
+                        "var innerDoc = iFrame.contentDocument || iFrame.contentWindow.document;"+
+                        "var username=innerDoc.getElementById('user_id');"+
+                        "var password=innerDoc.getElementById('password');"+
+                        "username.value="+"'"+username+"'"+";"+
+                        "password.value="+"'"+password+"'"+";"+
+                        "var button=innerDoc.getElementsByName('login');"+
+                        "button[0].submit()");
+
+
+
+
+
+        /*
                 try{
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
@@ -68,11 +89,14 @@ public class Browse extends ActionBarActivity {
                 }catch(Exception exception){
                     exception.printStackTrace();
                 }
+                */
+
             }
+
         });
 
          // Javascript enabled on webview
-        webView.getSettings().setJavaScriptEnabled(true);
+
 
         //Load url in webview
         webView.loadUrl(url);
